@@ -14,10 +14,10 @@ public class MetricTest {
 
     @Test
     public void serialization() {
-        Metric metric = new Metric("payara", "tx", "commit", "success");
+        Metric metric = new Metric("payara", "tx", "commit", "success", "42");
         metric.addLabel("type", "local");
         metric.addLabel("state", "no_timeout");
-        String expected = "payara_tx_commit_success{state=no_timeout,type=local}\n";
+        String expected = "payara_tx_commit_success{state=no_timeout,type=local} 42\n";
         String actual = metric.toMetric();
         assertThat(actual, is(expected));
     }

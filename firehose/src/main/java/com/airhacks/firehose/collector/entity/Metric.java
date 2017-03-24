@@ -16,6 +16,7 @@ public class Metric {
 
     private final List<String> metricParts;
     private final Map<String, String> labels;
+    private final String value;
 
     /**
      *
@@ -24,8 +25,9 @@ public class Metric {
      * @param units e.g. seconds
      * @param unitDescriptionSuffix e.g. total
      */
-    public Metric(String application, String component, String units, String unitDescriptionSuffix) {
+    public Metric(String application, String component, String units, String unitDescriptionSuffix, String value) {
         this.labels = new HashMap<>();
+        this.value = value;
         this.metricParts = Arrays.asList(application, component, units, unitDescriptionSuffix);
     }
 
@@ -33,7 +35,9 @@ public class Metric {
         this(metricsAsJson.getString("application", null),
                 metricsAsJson.getString("component", null),
                 metricsAsJson.getString("units", null),
-                metricsAsJson.getString("unitsDescriptionSuffix", null));
+                metricsAsJson.getString("suffix", null),
+                metricsAsJson.getString("value")
+        );
     }
 
     public void addLabel(String name, String value) {
@@ -45,11 +49,14 @@ public class Metric {
                 filter(s -> s != null).
                 collect(Collectors.joining("_"));
         if (this.labels.isEmpty()) {
-            return metric + "\n";
+            return addValue(metric, this.value);
         }
+        String metricWithLabels = metric + "{" + this.getLabels() + "}";
+        return addValue(metricWithLabels, this.value);
+    }
 
-        return metric + "{" + this.getLabels() + "}\n";
-
+    String addValue(String metric, String value) {
+        return metric + " " + value + "\n";
     }
 
     String getLabels() {
