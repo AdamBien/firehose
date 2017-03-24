@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import javax.json.JsonObject;
 
 /**
  *
@@ -26,6 +27,13 @@ public class Metric {
     public Metric(String application, String component, String units, String unitDescriptionSuffix) {
         this.labels = new HashMap<>();
         this.metricParts = Arrays.asList(application, component, units, unitDescriptionSuffix);
+    }
+
+    public Metric(JsonObject metricsAsJson) {
+        this(metricsAsJson.getString("application", null),
+                metricsAsJson.getString("component", null),
+                metricsAsJson.getString("units", null),
+                metricsAsJson.getString("unitsDescriptionSuffix", null));
     }
 
     public void addLabel(String name, String value) {
