@@ -1,6 +1,7 @@
 
 package com.airhacks.firehose.configuration.boundary;
 
+import com.airhacks.firehose.configuration.control.EnvironmentVariables;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
@@ -25,8 +26,8 @@ public class ConfigurationStore {
 
     /**
      *
-     * @param name metrics / configuraiton name
-     * @param configuration meetrics configuration
+     * @param name metrics / configuration name
+     * @param configuration metrics configuration
      * @return true = update, false = save
      */
     public boolean saveOrUpdate(String name, JsonObject configuration) {
@@ -34,12 +35,21 @@ public class ConfigurationStore {
     }
 
     public Optional<String> getValue(String configuration, String key) {
+        Optional<String> environment = EnvironmentVariables.getValue(configuration, key);
+        if (environment.isPresent()) {
+            return environment;
+        }
         return getConfiguration(key).
                 map(o -> o.getString(key, null));
     }
 
     public Optional<JsonObject> getConfiguration(String key) {
+        Optional<JsonObject> environment = EnvironmentVariables.getConfiguration(key);
+        if (environment.isPresent()) {
+            return environment;
+        }
         return Optional.ofNullable(this.configurationStore.get(key));
+
     }
 
     JsonObject getAllConfigurations() {
