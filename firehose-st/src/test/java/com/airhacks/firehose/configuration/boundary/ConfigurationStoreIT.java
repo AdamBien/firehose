@@ -56,8 +56,29 @@ public class ConfigurationStoreIT {
         JsonObject existingConfiguration = evenCreated.readEntity(JsonObject.class);
         assertThat(origin.getString("host"), is(existingConfiguration.getString("host")));
 
+        JsonObject updated = Json.createObjectBuilder().
+                add("host", "nuke:4242").
+                build();
+
+        Response updatedResponse = this.tut.path(configurationName).
+                request(MediaType.APPLICATION_JSON).
+                put(Entity.json(updated));
+        assertThat(updatedResponse.getStatus(), is(204));
+
+        Response evenUpdated = this.tut.path(configurationName).
+                request(MediaType.APPLICATION_JSON).
+                get();
+        assertThat(evenUpdated.getStatus(), is(200));
+
+
         Response deleteResponse = this.tut.path(configurationName).request().delete();
         assertThat(deleteResponse.getStatus(), is(204));
+
+        Response evenDeleted = this.tut.path(configurationName).
+                request(MediaType.APPLICATION_JSON).
+                get();
+        assertThat(evenDeleted.getStatus(), is(204));
+
 
     }
 

@@ -2,6 +2,8 @@
 package com.airhacks.firehose.configuration.boundary;
 
 import java.net.URI;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.JsonObject;
@@ -40,9 +42,14 @@ public class ConfigurationResource {
     @GET
     @Path("{name}")
     public void getConfiguration(@Suspended AsyncResponse response, @PathParam("name") String configurationName) {
-        this.configurationStore.
-                getConfiguration(configurationName).
-                ifPresent(response::resume);
+        response.setTimeout(1, TimeUnit.SECONDS);
+        Optional<JsonObject> configuration = this.configurationStore.
+                getConfiguration(configurationName);
+        if (configuration.isPresent()) {
+            response.resume(configuration.get());
+        } else {
+            response.resume(Response.noContent().build());
+        }
     }
 
     @PUT
