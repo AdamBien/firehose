@@ -38,7 +38,8 @@ public class ConfigurationResource {
     }
 
     @GET
-    public void getConfiguration(@Suspended AsyncResponse response, String configurationName) {
+    @Path("{name}")
+    public void getConfiguration(@Suspended AsyncResponse response, @PathParam("name") String configurationName) {
         this.configurationStore.
                 getConfiguration(configurationName).
                 ifPresent(response::resume);
@@ -55,7 +56,6 @@ public class ConfigurationResource {
                     build();
         } else {
             URI uri = info.getAbsolutePathBuilder().
-                    path("/" + name).
                     build();
             return Response.
                     created(uri).
