@@ -78,9 +78,24 @@ public class ConfigurationStoreIT {
                 request(MediaType.APPLICATION_JSON).
                 get();
         assertThat(evenDeleted.getStatus(), is(204));
+    }
 
+    @Test
+    public void configureSimpleService() {
+        String configurationName = "sample-service";
+
+        JsonObject origin = Json.createObjectBuilder().
+                add("uri", "http://localhost:8080/sample-service/resources/metric").
+                build();
+
+        Response createdOrUpdated = this.tut.path(configurationName).
+                request(MediaType.APPLICATION_JSON).
+                put(Entity.json(origin));
+        System.out.println("-- Status: " + createdOrUpdated.getStatus());
+        assertThat(createdOrUpdated.getStatusInfo().getFamily(), is(Response.Status.Family.SUCCESSFUL));
 
     }
+
 
 
 }
