@@ -35,7 +35,8 @@ public class DataCollector {
     public Optional<Metric> fetchRemoteMetrics(String metricsName) {
         Optional<JsonObject> optionalConfiguration = this.configurationStore.getConfiguration(metricsName);
         JsonObject configuration = optionalConfiguration.orElseThrow(() -> new MetricNotConfiguredException(metricsName));
-        Response response = client.target(metricsName).
+        String extractedUri = extractUri(configuration);
+        Response response = client.target(extractedUri).
                 request(MediaType.APPLICATION_JSON).
                 get();
         if (response.getStatusInfo().getFamily() != Response.Status.Family.SUCCESSFUL) {
