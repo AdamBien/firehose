@@ -30,7 +30,7 @@ public class MetricsResourceIT {
 
     @Test
     public void sampleServiceMetrics() {
-        Response pingResponse = this.client.target("http://localhost:8080/sample-service/resources/metrics").
+        Response pingResponse = this.client.target("http://localhost:8282/sample-service/resources/metrics").
                 request().
                 get();
         assumeThat(pingResponse.getStatusInfo().getFamily(), is(Response.Status.Family.SUCCESSFUL));

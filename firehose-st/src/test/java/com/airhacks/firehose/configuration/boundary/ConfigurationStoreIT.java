@@ -85,7 +85,7 @@ public class ConfigurationStoreIT {
         String configurationName = "sample-service";
 
         JsonObject origin = Json.createObjectBuilder().
-                add("uri", "http://localhost:8080/sample-service/resources/metrics").
+                add("uri", "http://sample-service:8080/sample-service/resources/metrics").
                 build();
         System.out.println("origin = " + origin);
         Response createdOrUpdated = this.tut.path(configurationName).
