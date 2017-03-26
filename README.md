@@ -32,6 +32,12 @@ delete a metric with the name "sample-service"
 
 `curl -XDELETE http://localhost:8080/firehose/resources/configurations/sample-service`
 
+## Prometheus endpoint
+
+The preconfigured endpoint are available under the URI: `http://[HOST]:[8080]/firehose/resources/metrics/{metrics-name}`
+
+test it with: e.g. `curl -i http://localhost:8080/firehose/resources/metrics/sample-service`
+
 ## Build
 
 1. `git clone https://github.com/AdamBien/firehose`
