@@ -1,0 +1,13 @@
+version: '3.0'
+services:
+  firehose:
+    image: airhacks/firehose
+    ports:
+    - "8080:8080"
+    links:
+    - sample-service
+  sample-service:
+    image: airhacks/sample-service
+    ports:
+    - "8282:8080"
+
