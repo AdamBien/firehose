@@ -14,6 +14,11 @@ import javax.json.JsonObject;
  */
 public class Metric {
 
+    static final String SUFFIX = "suffix";
+    static final String UNITS = "units";
+    static final String COMPONENT = "component";
+    static final String APPLICATION = "application";
+
     private final List<String> metricParts;
     private final Map<String, String> labels;
     private final String value;
@@ -31,11 +36,11 @@ public class Metric {
         this.metricParts = Arrays.asList(application, component, units, unitDescriptionSuffix);
     }
 
-    public Metric(JsonObject metricsAsJson) {
-        this(metricsAsJson.getString("application", null),
-                metricsAsJson.getString("component", null),
-                metricsAsJson.getString("units", null),
-                metricsAsJson.getString("suffix", null),
+    public Metric(JsonObject metricsAsJson, JsonObject preconfigured) {
+        this(metricsAsJson.getString(APPLICATION, preconfigured.getString(APPLICATION)),
+                metricsAsJson.getString(COMPONENT, preconfigured.getString(COMPONENT)),
+                metricsAsJson.getString(UNITS, preconfigured.getString(UNITS)),
+                metricsAsJson.getString(SUFFIX, preconfigured.getString(SUFFIX)),
                 metricsAsJson.getString("value")
         );
     }
