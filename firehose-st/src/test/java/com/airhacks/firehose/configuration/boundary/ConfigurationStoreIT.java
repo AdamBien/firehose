@@ -13,6 +13,7 @@ import javax.ws.rs.core.Response;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeThat;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -81,11 +82,11 @@ public class ConfigurationStoreIT {
     }
 
     @Test
-    public void configureSimpleService() {
+    public void configureSampleService() {
         String configurationName = "sample-service";
 
         JsonObject origin = Json.createObjectBuilder().
-                add("uri", "http://localhost:8080/sample-service/resources/metric").
+                add("uri", "http://localhost:8080/sample-service/resources/metrics").
                 build();
 
         Response createdOrUpdated = this.tut.path(configurationName).
@@ -93,8 +94,18 @@ public class ConfigurationStoreIT {
                 put(Entity.json(origin));
         System.out.println("-- Status: " + createdOrUpdated.getStatus());
         assertThat(createdOrUpdated.getStatusInfo().getFamily(), is(Response.Status.Family.SUCCESSFUL));
-
     }
+
+    @Test
+    public void sampleServiceMetrics() {
+        Response pingResponse = this.client.target("http://localhost:8080/sample-service/resources/metrics").
+                request().
+                get();
+        assumeThat(pingResponse.getStatusInfo().getFamily(), is(Response.Status.Family.SUCCESSFUL));
+        JsonObject result = pingResponse.readEntity(JsonObject.class);
+        System.out.println("result = " + result);
+    }
+
 
 
 
