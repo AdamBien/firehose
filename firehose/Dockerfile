@@ -1,2 +1,2 @@
 FROM airhacks/tomee
-COPY ./target/firehose.war ${DEPLOYMENT_WAR}
+COPY ./target/firehose.war ${DEPLOYMENT_DIR}
