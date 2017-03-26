@@ -37,10 +37,10 @@ public class Metric {
     }
 
     public Metric(JsonObject metricsAsJson, JsonObject preconfigured) {
-        this(metricsAsJson.getString(APPLICATION, preconfigured.getString(APPLICATION)),
-                metricsAsJson.getString(COMPONENT, preconfigured.getString(COMPONENT)),
-                metricsAsJson.getString(UNITS, preconfigured.getString(UNITS)),
-                metricsAsJson.getString(SUFFIX, preconfigured.getString(SUFFIX)),
+        this(metricsAsJson.getString(APPLICATION, preconfigured.getString(APPLICATION, null)),
+                metricsAsJson.getString(COMPONENT, preconfigured.getString(COMPONENT, null)),
+                metricsAsJson.getString(UNITS, preconfigured.getString(UNITS, null)),
+                metricsAsJson.getString(SUFFIX, preconfigured.getString(SUFFIX, null)),
                 metricsAsJson.getString("value")
         );
     }
