@@ -1,7 +1,7 @@
 # firehose
 Java EE 7+ metrics gateway for prometheus
 
-The firehose service gathers metrics emitted from JSON / text HTTP endpoint and converts them into 
+The firehose service (16kB WAR) gathers metrics emitted from JSON / text HTTP endpoint and converts them into 
 prometheus compliant [metrics](https://prometheus.io/docs/practices/naming/). 
 
 The prometheus metrics are exposed via the: `http://[HOST]:[8080]/firehose/resources/metrics/{metrics-name}` endpoint.
@@ -19,6 +19,8 @@ Setup "sample-service" metric to be fetched from `http://sample-service:8080/sam
 via `http://[HOST]:[8080]/firehose/resources/metrics/sample-service`:
 
 `curl -i -H"Content-type: application/json" -XPUT -d'{"uri":"http://sample-service:8080/sample-service/resources/metrics"}' http://localhost:8080/firehose/resources/configurations/sample-service`
+
+This endpoint return 201 for creation and 204 for update.
 
 2. list all metrics
 
