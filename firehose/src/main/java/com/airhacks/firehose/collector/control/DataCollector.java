@@ -25,14 +25,16 @@ public class DataCollector {
     @Inject
     ConfigurationStore configurationStore;
 
+    static final String URI = "uri";
+
     @PostConstruct
     public void initClient() {
         this.client = ClientBuilder.newClient();
     }
 
     public Optional<Metric> fetchRemoteMetrics(String metricsName) {
-        Optional<JsonObject> configuration = this.configurationStore.getConfiguration(metricsName);
-        configuration.orElseThrow(() -> new MetricNotConfiguredException(metricsName));
+        Optional<JsonObject> optionalConfiguration = this.configurationStore.getConfiguration(metricsName);
+        JsonObject configuration = optionalConfiguration.orElseThrow(() -> new MetricNotConfiguredException(metricsName));
         Response response = client.target(metricsName).
                 request(MediaType.APPLICATION_JSON).
                 get();
@@ -40,11 +42,11 @@ public class DataCollector {
             return Optional.empty();
         }
         JsonObject metricsAsJson = response.readEntity(JsonObject.class);
-        return Optional.of(new Metric(metricsAsJson, configuration.get()));
+        return Optional.of(new Metric(metricsAsJson, configuration));
     }
 
     public String extractUri(JsonObject configuration) {
-        return configuration.getString("uri");
+        return configuration.getString(URI);
     }
 
 

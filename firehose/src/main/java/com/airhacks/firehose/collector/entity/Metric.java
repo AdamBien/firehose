@@ -14,10 +14,10 @@ import javax.json.JsonObject;
  */
 public class Metric {
 
-    static final String SUFFIX = "suffix";
-    static final String UNITS = "units";
-    static final String COMPONENT = "component";
-    static final String APPLICATION = "application";
+    public static final String SUFFIX = "suffix";
+    public static final String UNITS = "units";
+    public static final String COMPONENT = "component";
+    public static final String APPLICATION = "application";
 
     private final List<String> metricParts;
     private final Map<String, String> labels;
