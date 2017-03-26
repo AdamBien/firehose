@@ -28,7 +28,7 @@ public class MetricsResource {
                 .add("component", "MetricsResource")
                 .add("units", "request")
                 .add("suffix", "total")
-                .add("value", counter.incrementAndGet())
+                .add("value", String.valueOf(counter.incrementAndGet()))
                 .build();
     }
 
