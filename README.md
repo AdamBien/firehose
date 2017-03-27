@@ -14,7 +14,7 @@ Start `firehose` in the same docker network as the monitored resources and start
 
 A sample configuration used for testing:
 
-```
+```yaml
 version: '3.0'
 services:
   prometheus:
@@ -32,10 +32,9 @@ services:
   sample-service:
     image: airhacks/sample-service
     ports:
-    - "8282:8080"
-`
-
-
+    - "8282:8080"
+```
+    
 ## Configuration management
 
 To gather a remote metric at least the `uri` with the fully qualified value, e.g.: `http://sample-service:8080/sample-service/resources/metrics` is required.
