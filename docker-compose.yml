@@ -1,5 +1,11 @@
 version: '3.0'
 services:
+  prometheus:
+    build: prometheus-firehose
+    ports:
+    - "9090:9090"
+    links:
+    - firehose
   firehose:
     image: airhacks/firehose
     ports:

@@ -42,8 +42,8 @@ public class DataCollector {
         if (response.getStatusInfo().getFamily() != Response.Status.Family.SUCCESSFUL) {
             return Optional.empty();
         }
-        JsonObject metricsAsJson = response.readEntity(JsonObject.class);
-        return Optional.of(new Metric(metricsAsJson, configuration));
+        JsonObject applicationData = response.readEntity(JsonObject.class);
+        return Optional.of(new Metric(configuration, applicationData));
     }
 
     public String extractUri(JsonObject configuration) {

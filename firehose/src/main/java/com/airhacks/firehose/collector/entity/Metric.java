@@ -36,12 +36,12 @@ public class Metric {
         this.metricParts = Arrays.asList(application, component, units, unitDescriptionSuffix);
     }
 
-    public Metric(JsonObject metricsAsJson, JsonObject preconfigured) {
-        this(metricsAsJson.getString(APPLICATION, preconfigured.getString(APPLICATION, null)),
-                metricsAsJson.getString(COMPONENT, preconfigured.getString(COMPONENT, null)),
-                metricsAsJson.getString(UNITS, preconfigured.getString(UNITS, null)),
-                metricsAsJson.getString(SUFFIX, preconfigured.getString(SUFFIX, null)),
-                metricsAsJson.getString("value")
+    public Metric(JsonObject configuredMetaData, JsonObject applicationData) {
+        this(configuredMetaData.getString(APPLICATION, applicationData.getString(APPLICATION, null)),
+                configuredMetaData.getString(COMPONENT, applicationData.getString(COMPONENT, null)),
+                configuredMetaData.getString(UNITS, applicationData.getString(UNITS, null)),
+                configuredMetaData.getString(SUFFIX, applicationData.getString(SUFFIX, null)),
+                applicationData.getString("value")
         );
     }
 
