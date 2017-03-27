@@ -38,6 +38,7 @@ services:
 ## Configuration management
 
 To gather a remote metric at least the `uri` with the fully qualified value, e.g.: `http://sample-service:8080/sample-service/resources/metrics` is required.
+
 The properties:
 
 1. application  (e.g. "sampleservice"
@@ -45,13 +46,13 @@ The properties:
 3. units (e.g. "requests")
 4. suffix (e.g. "total")
 
-Are usually provided by the monitored endpoint as json, but can be override with environment entries, like e.g.
+are usually provided by the monitored endpoint as json, but can be overriden with environment entries, like e.g.
 
 `sampleservice.application=sample`
 
 at startup time.
 
-The environment variables can be overriden by the REST configuration endpoint:
+The environment variables can be overriden again by the REST configuration endpoint:
 
 
 1. create or update a metric
