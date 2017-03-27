@@ -21,7 +21,7 @@ public class EnvironmentVariables {
         System.getenv().entrySet().
                 stream().
                 filter(e -> e.getKey().startsWith(configurationName + ".")).
-                forEach(e -> builder.add(e.getKey(), e.getValue()));
+                forEach(e -> builder.add(skipPrefix(e.getKey()), e.getValue()));
         JsonObject retVal = builder.build();
         if (retVal.isEmpty()) {
             return Optional.empty();
