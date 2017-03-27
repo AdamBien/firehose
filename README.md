@@ -2,10 +2,9 @@
 
 Java EE 7+ metrics gateway for prometheus
 
-The firehose service (16kB Thin WAR) gathers metrics emitted from JSON / text (currently only JSON is supported) HTTP endpoint and converts them into 
-prometheus compliant [metrics](https://prometheus.io/docs/practices/naming/). 
+The firehose service (16kB Thin WAR) gathers metrics emitted from JSON / text (currently only JSON is supported) HTTP endpoint and converts them into prometheus compliant [metrics](https://prometheus.io/docs/practices/naming/). 
 
-The prometheus metrics are exposed via the: `http://[HOST]:[8080]/firehose/resources/metrics/{metrics-name}` endpoint.
+The prometheus metrics are exposed via the: `http://[HOST]:[8080]/firehose/resources/metrics/{metrics-name}` uri in prometheus format.
 
 ## Installation
 
@@ -39,7 +38,7 @@ services:
 
 To gather a remote metric at least the `uri` with the fully qualified value, e.g.: `http://sample-service:8080/sample-service/resources/metrics` is required.
 
-The properties:
+The properties (required by [prometheus](https://prometheus.io/docs/practices/naming/)):
 
 1. application  (e.g. "sampleservice"
 2. component  (e.g. "MetricsResource"")
