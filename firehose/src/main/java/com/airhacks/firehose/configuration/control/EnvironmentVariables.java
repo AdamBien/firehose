@@ -16,11 +16,11 @@ public class EnvironmentVariables {
         return Optional.ofNullable(System.getenv(configuration + "." + key));
     }
 
-    public static Optional<JsonObject> getConfiguration(String configuration) {
+    public static Optional<JsonObject> getConfiguration(String configurationName) {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         System.getenv().entrySet().
                 stream().
-                filter(e -> e.getKey().startsWith(configuration)).
+                filter(e -> e.getKey().startsWith(configurationName + ".")).
                 forEach(e -> builder.add(e.getKey(), e.getValue()));
         JsonObject retVal = builder.build();
         if (retVal.isEmpty()) {
@@ -31,5 +31,12 @@ public class EnvironmentVariables {
 
     }
 
+    static String skipPrefix(String key) {
+        if (key == null || !key.contains(".")) {
+            return key;
+        }
+        String[] twoSegments = key.split("\\.");
+        return twoSegments[1];
+    }
 
 }
