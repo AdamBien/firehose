@@ -1,0 +1,12 @@
+global:
+  scrape_interval:     15s
+
+  external_labels:
+    monitor: 'firehose-monitor'
+
+scrape_configs:
+  - job_name: 'sample-service'
+    scrape_interval: 5s
+    metrics_path: '/firehose/resources/metrics/sample-service'
+    static_configs:
+      - targets: ['firehose:8080']
