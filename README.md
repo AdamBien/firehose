@@ -89,6 +89,6 @@ test it with: e.g. `curl -i http://localhost:8080/firehose/resources/metrics/sam
 
 Base image for firehose and sample apps were taken from [docklands](https://github.com/AdamBien/docklands)
 
-See you at [Java EE Performance, Monitoring and Troubleshooting workshop](http://workshops.adam-bien.com/performance.htm)
+See you at [Java EE Performance, Monitoring and Troubleshooting](http://workshops.adam-bien.com/performance.htm) and/or [Java EE Microservices](http://workshops.adam-bien.com/microservices.htm) workshops
 
 
