@@ -11,7 +11,8 @@ The prometheus metrics are exposed via the: `http://[HOST]:[8080]/firehose/resou
 Start `firehose` in the same docker network as the monitored resources and start it with
 `docker run -d -p 8080:8080 --name firehose airhacks/firehose` or deploy the WAR to a Java EE 7 container running on Java 8.
 
-A sample configuration used for testing:
+A sample configuration is used for testing. Prometheus, a sample-service and firehose 
+are started:
 
 ```yaml
 version: '3.0'
@@ -24,6 +25,7 @@ services:
     - firehose
   firehose:
     image: airhacks/firehose
+    env_file: metrics.env
     ports:
     - "8080:8080"
     links:
@@ -31,7 +33,16 @@ services:
   sample-service:
     image: airhacks/sample-service
     ports:
-    - "8282:8080"
+    - "8282:8080"
+```
+
+sample-service is configured in an env file (docker feature) and provided at starttime:
+
+```
+# Sample service configuration
+firehose.sample-service.uri=http://sample-service:8080/sample-service/resources/metrics
+# prometheus does not allow dashes -> name changed to sampleservice
+firehose.sample-service.application=sampleservice
 ```
     
 ## Configuration management
