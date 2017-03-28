@@ -20,7 +20,7 @@ public class EnvironmentVariables {
     public static final String MANDATORY_KEY_PREFIX = "firehose.";
 
     public static Optional<String> getValue(String configuration, String key) {
-        return Optional.ofNullable(System.getenv(configuration + "." + key));
+        return Optional.ofNullable(System.getenv(MANDATORY_KEY_PREFIX + configuration + "." + key));
     }
 
     public static Optional<JsonObject> getConfiguration(String configurationName) {

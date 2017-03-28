@@ -57,7 +57,10 @@ public class ConfigurationStore {
         Optional<JsonObject> environmentEntries = EnvironmentVariables.getAllConfigurations();
         if (environmentEntries.isPresent()) {
             JsonObject environment = environmentEntries.get();
-            environment.keySet().stream().forEach(key -> retVal.add(key, environment.getString(key, null)));
+            System.out.println("environment = " + environment);
+            environment.keySet().
+                    stream().
+                    forEach(key -> retVal.add(key, environment.getJsonObject(key)));
         }
         this.configurationStore.entrySet().forEach(e -> retVal.add(e.getKey(), e.getValue()));
         return retVal.build();
