@@ -8,6 +8,7 @@ services:
     - firehose
   firehose:
     image: airhacks/firehose
+    env_file: metrics.env
     ports:
     - "8080:8080"
     links:
