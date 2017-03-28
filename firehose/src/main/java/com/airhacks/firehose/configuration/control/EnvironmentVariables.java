@@ -28,6 +28,11 @@ public class EnvironmentVariables {
         return getConfiguration(System.getenv(), e -> e.getKey().contains("." + configurationName + "."));
     }
 
+    static Optional<JsonObject> getConfiguration(Map<String, String> environment, String configurationName) {
+
+        return getConfiguration(environment, e -> e.getKey().contains("." + configurationName + "."));
+    }
+
     public static Optional<JsonObject> getAllConfigurations() {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         configurationNames().stream().
@@ -48,7 +53,7 @@ public class EnvironmentVariables {
                 stream().
                 filter(key -> key.startsWith(MANDATORY_KEY_PREFIX)).
                 map(key -> extractConfigurationName(key)).
-                peek(System.out::println).
+                distinct().
                 collect(Collectors.toList());
     }
 
