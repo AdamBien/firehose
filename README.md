@@ -36,7 +36,7 @@ services:
     - "8282:8080"
 ```
 
-sample-service is configured in an env file (docker feature) and provided at starttime:
+sample-service is configured in an `metrics.env` file and provided at starttime:
 
 ```
 # Sample service configuration
