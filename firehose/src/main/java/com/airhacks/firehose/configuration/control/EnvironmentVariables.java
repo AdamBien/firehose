@@ -20,15 +20,20 @@ public class EnvironmentVariables {
 
     public static Optional<JsonObject> getConfiguration(String configurationName) {
 
-        return getConfiguration(configurationName, e -> true);
+        return getConfiguration(e -> e.getKey().startsWith(configurationName + "."));
     }
 
-    public static Optional<JsonObject> getConfiguration(String configurationName, Predicate<Map.Entry<String, String>> filter) {
+    public static Optional<JsonObject> getAllConfigurations() {
+        return getConfiguration(e -> true);
+    }
+
+
+    public static Optional<JsonObject> getConfiguration(Predicate<Map.Entry<String, String>> filter) {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         System.getenv().
                 entrySet().
                 stream().
-                filter(e -> e.getKey().startsWith(configurationName + ".")).
+                filter(filter).
                 forEach(e -> builder.add(skipPrefix(e.getKey()), e.getValue()));
         JsonObject retVal = builder.build();
         if (retVal.isEmpty()) {
