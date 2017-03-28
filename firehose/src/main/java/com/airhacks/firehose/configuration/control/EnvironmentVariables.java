@@ -14,6 +14,8 @@ import javax.json.JsonObjectBuilder;
  */
 public class EnvironmentVariables {
 
+    public static final String MANDATORY_KEY_PREFIX = "firehose.";
+
     public static Optional<String> getValue(String configuration, String key) {
         return Optional.ofNullable(System.getenv(configuration + "." + key));
     }
@@ -27,12 +29,12 @@ public class EnvironmentVariables {
         return getConfiguration(e -> true);
     }
 
-
     public static Optional<JsonObject> getConfiguration(Predicate<Map.Entry<String, String>> filter) {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         System.getenv().
                 entrySet().
                 stream().
+                filter(e -> e.getKey().startsWith(MANDATORY_KEY_PREFIX)).
                 filter(filter).
                 forEach(e -> builder.add(skipPrefix(e.getKey()), e.getValue()));
         JsonObject retVal = builder.build();
@@ -49,7 +51,10 @@ public class EnvironmentVariables {
             return key;
         }
         String[] twoSegments = key.split("\\.");
-        return twoSegments[1];
+        //0: firehose
+        //1: key
+        //2: value
+        return twoSegments[2];
     }
 
 }

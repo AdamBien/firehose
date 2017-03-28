@@ -23,7 +23,7 @@ public class EnvironmentVariablesTest {
     @Test
     public void skipPrefix() {
         String uri = "uri";
-        assertThat(EnvironmentVariables.skipPrefix("duke." + uri), is(uri));
+        assertThat(EnvironmentVariables.skipPrefix("firehose.duke." + uri), is(uri));
 
     }
 
