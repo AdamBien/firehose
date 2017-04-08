@@ -6,6 +6,8 @@ The firehose service (16kB Thin WAR) gathers metrics emitted from JSON / text (c
 
 The prometheus metrics are exposed via the: `http://[HOST]:[8080]/firehose/resources/metrics/{metrics-name}` uri in prometheus format.
 
+Metrics from all registered endpoints can be fetched at once via HTTP `http://[HOST]:[8080]/firehose/resources/metrics/`
+
 ## Installation
 
 Start `firehose` in the same docker network as the monitored resources and start it with
