@@ -3,7 +3,9 @@ package com.airhacks.firehose.collector.control;
 
 import com.airhacks.firehose.collector.entity.Metric;
 import com.airhacks.firehose.configuration.boundary.ConfigurationStore;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -44,6 +46,15 @@ public class DataCollector {
         }
         JsonObject applicationData = response.readEntity(JsonObject.class);
         return Optional.of(new Metric(configuration, applicationData));
+    }
+    
+    public List<Metric> fetchRemoteMetrics() {
+        return this.configurationStore.getConfigurationNames().
+                stream().
+                map(this::fetchRemoteMetrics).
+                filter(m -> m.isPresent()).
+                map(o -> o.get()).
+                collect(Collectors.toList());
     }
 
     public String extractUri(JsonObject configuration) {

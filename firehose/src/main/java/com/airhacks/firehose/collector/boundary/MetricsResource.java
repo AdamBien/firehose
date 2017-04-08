@@ -2,8 +2,11 @@
 package com.airhacks.firehose.collector.boundary;
 
 import com.airhacks.firehose.collector.control.DataCollector;
+import com.airhacks.firehose.collector.entity.Metric;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -39,7 +42,16 @@ public class MetricsResource {
         } else {
             response.resume(Response.noContent().build());
         }
+    }
 
+    @GET
+    public void all(@Suspended AsyncResponse response) {
+        response.setTimeout(1, TimeUnit.SECONDS);
+        List<Metric> remoteMetrics = dataCollector.fetchRemoteMetrics();
+        String metrics = remoteMetrics.stream().
+                map(Metric::toMetric).
+                collect(Collectors.joining());
+        response.resume(metrics);
     }
 
 }
