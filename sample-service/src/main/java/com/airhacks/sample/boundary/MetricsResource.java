@@ -32,4 +32,16 @@ public class MetricsResource {
                 .build();
     }
 
+    @GET
+    @Path("additional")
+    public JsonObject additional() {
+        return Json.createObjectBuilder()
+                .add("application", "sample-service")
+                .add("component", "MetricsResource")
+                .add("units", "ms")
+                .add("suffix", "startup")
+                .add("value", System.currentTimeMillis())
+                .build();
+    }
+
 }
