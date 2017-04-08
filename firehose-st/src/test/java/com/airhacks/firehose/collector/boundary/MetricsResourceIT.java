@@ -61,7 +61,7 @@ public class MetricsResourceIT {
         assertThat(response.getStatus(), is(200));
         String metric = response.readEntity(String.class);
         assertNotNull(metric);
-        System.out.println("metric = " + metric);
+        System.out.println("all metric = " + metric);
     }
 
 
