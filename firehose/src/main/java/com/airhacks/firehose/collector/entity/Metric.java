@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.json.JsonObject;
+import javax.json.JsonString;
+import javax.json.JsonValue;
 
 /**
  *
@@ -41,8 +43,16 @@ public class Metric {
                 configuredMetaData.getString(COMPONENT, applicationData.getString(COMPONENT, null)),
                 configuredMetaData.getString(UNITS, applicationData.getString(UNITS, null)),
                 configuredMetaData.getString(SUFFIX, applicationData.getString(SUFFIX, null)),
-                applicationData.getString("value")
+                convert(applicationData.get("value"))
         );
+    }
+
+    static String convert(JsonValue input) {
+        if (input.getValueType() == JsonValue.ValueType.STRING) {
+            return ((JsonString) input).getString();
+        } else {
+            return input.toString();
+        }
     }
 
     public void addLabel(String name, String value) {
