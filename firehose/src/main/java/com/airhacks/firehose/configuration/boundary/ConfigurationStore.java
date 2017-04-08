@@ -3,6 +3,7 @@ package com.airhacks.firehose.configuration.boundary;
 
 import com.airhacks.firehose.configuration.control.EnvironmentVariables;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -52,7 +53,7 @@ public class ConfigurationStore {
 
     }
 
-    JsonObject getAllConfigurations() {
+    public JsonObject getAllConfigurations() {
         JsonObjectBuilder retVal = Json.createObjectBuilder();
         Optional<JsonObject> environmentEntries = EnvironmentVariables.getAllConfigurations();
         if (environmentEntries.isPresent()) {
@@ -64,6 +65,10 @@ public class ConfigurationStore {
         }
         this.configurationStore.entrySet().forEach(e -> retVal.add(e.getKey(), e.getValue()));
         return retVal.build();
+    }
+
+    public Set<String> getConfigurationNames() {
+        return this.getAllConfigurations().keySet();
     }
 
     public void remove(String name) {
