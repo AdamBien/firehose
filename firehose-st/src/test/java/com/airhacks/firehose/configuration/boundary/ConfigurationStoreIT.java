@@ -96,4 +96,19 @@ public class ConfigurationStoreIT {
         assertThat(createdOrUpdated.getStatusInfo().getFamily(), is(Response.Status.Family.SUCCESSFUL));
     }
 
+    @Test
+    public void configureAdditionalService() {
+        String configurationName = "additional";
+        JsonObject origin = Json.createObjectBuilder().
+                add("uri", "http://sample-service:8080/sample-service/resources/metrics/additional").
+                add("application", "additional").
+                build();
+        System.out.println("origin = " + origin);
+        Response createdOrUpdated = this.tut.path(configurationName).
+                request(MediaType.APPLICATION_JSON).
+                put(Entity.json(origin));
+        System.out.println("-- Status: " + createdOrUpdated.getStatus());
+        assertThat(createdOrUpdated.getStatusInfo().getFamily(), is(Response.Status.Family.SUCCESSFUL));
+    }
+
 }
