@@ -3,7 +3,7 @@ package com.airhacks.firehose.collector.control;
 
 import com.airhacks.firehose.collector.entity.Metric;
 import com.airhacks.firehose.configuration.boundary.ConfigurationStore;
-import com.airhacks.firehose.extractor.control.NashornExtractor;
+import com.airhacks.firehose.extractor.control.Extractor;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +33,7 @@ public class DataCollector {
     ConfigurationStore configurationStore;
 
     @Inject
-    NashornExtractor extractor;
+    Extractor extractor;
 
     static final String URI = "uri";
 
