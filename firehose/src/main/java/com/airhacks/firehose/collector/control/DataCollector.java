@@ -51,13 +51,12 @@ public class DataCollector {
         Response response = client.target(extractedUri).
                 request(MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN).
                 get();
-        if (response.getStatusInfo().getFamily() != Response.Status.Family.SUCCESSFUL) {
+        if (response.getStatusInfo().getFamily() != Response.Status.Family.SUCCESSFUL || response.getStatus() == 204) {
             return Optional.empty();
         }
 
         Metric normalizedMetric = null;
-
-        if (response.getMediaType() == MediaType.APPLICATION_JSON_TYPE) {
+        if (isJSON(response)) {
             JsonObject metric = response.readEntity(JsonObject.class);
             normalizedMetric = optionalExtractor.
                     map(f -> new Metric(configuration, f.apply(this.toString(metric)))).
@@ -94,5 +93,9 @@ public class DataCollector {
         return configuration.getString(URI);
     }
 
+    boolean isJSON(Response response) {
+        //TomEE returns null for Response#getMediaType-therefore this workaround
+        return response.getHeaderString("Content-Type").equalsIgnoreCase(MediaType.APPLICATION_JSON);
+    }
 
 }
