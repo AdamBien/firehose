@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
  *
  * @author airhacks.com
  */
-@ApplicationException(rollback = true)
+@ApplicationException(rollback = false)
 public class NoScriptConfiguredForStringMetrics extends WebApplicationException {
 
     public NoScriptConfiguredForStringMetrics(String metricsName) {

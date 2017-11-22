@@ -44,12 +44,24 @@ public class Extractor {
         try {
             this.scriptEngine.eval(scriptContent);
         } catch (ScriptException ex) {
-            throw new IllegalArgumentException("Script evaluation failed", ex);
+            throw new ScriptEvaluationException("Script evaluation failed", ex);
         }
         Invocable invocable = (Invocable) this.scriptEngine;
         Function<String, String> nashorn = invocable.getInterface(Function.class);
-        return nashorn.andThen(this::fromString);
+        Function<String, JsonObject> withToJson = nashorn.andThen(this::fromString);
+
+        return (input) -> {
+            try {
+                return withToJson.apply(input);
+            } catch (Throwable t) {
+                throw new ScriptEvaluationException("Script execution failed", scriptContent, input, t);
+            }
+        };
+
+        //return
     }
+
+
 
     JsonObject fromString(String content) {
         try (JsonReader reader = Json.createReader(new StringReader(content))) {
