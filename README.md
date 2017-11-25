@@ -95,7 +95,7 @@ The following request: `curl http://localhost:8080/firehose/resources/metrics/pa
 
 will return a prometheus-consumable metric:
 
-firehosest_jvmusedheapsize_bytes_size 150629368
+`firehosest_jvmusedheapsize_bytes_size 150629368`
 
 
 
