@@ -91,6 +91,12 @@ function apply(input) {
 ````
 (see firehose-st/src/test/resources)
 
+The following request: `curl http://localhost:8080/firehose/resources/metrics/payarausedheap`
+
+will return a prometheus-consumable metric:
+
+firehosest_jvmusedheapsize_bytes_size 150629368
+
 
 
 The environment variables can be overriden again by the REST configuration endpoint:
