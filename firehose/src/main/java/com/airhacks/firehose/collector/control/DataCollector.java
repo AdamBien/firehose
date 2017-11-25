@@ -48,9 +48,7 @@ public class DataCollector {
 
         JsonObject configuration = optionalConfiguration.orElseThrow(() -> new MetricNotConfiguredException(metricsName));
         String extractedUri = extractUri(configuration);
-        Response response = client.target(extractedUri).
-                request(MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN).
-                get();
+        Response response = fetchContent(extractedUri);
         if (response.getStatusInfo().getFamily() != Response.Status.Family.SUCCESSFUL || response.getStatus() == 204) {
             return Optional.empty();
         }
@@ -68,6 +66,18 @@ public class DataCollector {
                     orElseThrow(() -> new NoScriptConfiguredForStringMetrics(metricsName));
         }
         return Optional.of(normalizedMetric);
+
+    }
+
+    Response fetchContent(String uri) {
+        try {
+            return client.target(uri).
+                    request(MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN).
+                    get();
+        } catch (Exception ex) {
+            throw new MetricsCollectionException("Cannot fetch metrics from " + uri, ex.getMessage());
+
+        }
 
     }
 
