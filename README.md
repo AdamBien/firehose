@@ -64,8 +64,36 @@ are usually provided by the monitored endpoint as json, but can be overriden wit
 
 at startup time.
 
-The environment variables can be overriden again by the REST configuration endpoint:
+The properties can be also passed as JSON via configuration, e.g.
 
+`curl -i -H"Content-type: application/json" -XPUT -d'{"uri":"http://sample-service:8080/sample-service/resources/metrics","application":"sample", "component":"jobprocessing","units":"jobs","suffix":"total}' http://localhost:8080/firehose/resources/configurations/sample-service`
+
+Also an extractor script can be configured to extract the data from an incompatible data source. The following script uploads a JavaScript file, which extracts the used heap in bytes from
+the GlassFish / Payara monitoring endpoint:
+
+`curl -i -XPUT -H"Content-type: text/plain" -H"uri: http://localhost:4848/monitoring/domain/server/jvm/memory/usedheapsize-count.json"  --upload-file usedheapsize.js http://localhost:8080/firehose/resources/configurations/payarausedheap`
+
+The content of the file is:
+
+```
+function apply(input) {
+    var metric = JSON.parse(input);
+    var value = metric.extraProperties.entity["usedheapsize-count"].count;
+    var output = {
+        suffix: "size",
+        units: "bytes",
+        component: "jvmusedheapsize",
+        application: "firehosest",
+        value: value
+    };
+    return JSON.stringify(output);
+}
+````
+(see firehose-st/src/test/resources)
+
+
+
+The environment variables can be overriden again by the REST configuration endpoint:
 
 1. create or update a metric
 
