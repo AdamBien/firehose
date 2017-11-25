@@ -126,6 +126,10 @@ The preconfigured endpoint are available under the URI: `http://[HOST]:[8080]/fi
 
 test it with: e.g. `curl -i http://localhost:8080/firehose/resources/metrics/sample-service`
 
+You can also fetch all metrics via a single URI:
+`curl http://localhost:8080/firehose/resources/metrics/`, what does not require any changes in prometheus configuration in case an additional endpoint is added.
+
+
 ## Build
 
 1. `git clone https://github.com/AdamBien/firehose`
