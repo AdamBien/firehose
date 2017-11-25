@@ -2,6 +2,7 @@
  */
 package com.airhacks.firehose.configuration.boundary;
 
+import java.util.Scanner;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
@@ -110,5 +111,27 @@ public class ConfigurationStoreIT {
         System.out.println("-- Status: " + createdOrUpdated.getStatus());
         assertThat(createdOrUpdated.getStatusInfo().getFamily(), is(Response.Status.Family.SUCCESSFUL));
     }
+
+    @Test
+    public void configureWithExtractorScript() {
+        String uri = "http://localhost:4848/monitoring/domain/server/jvm/memory/usedheapsize-count.json";
+        String extractor = new Scanner(ConfigurationStoreIT.class.getResourceAsStream("/usedheapsize.js")).
+                useDelimiter("\\Z").
+                next();
+        String path = "jvm";
+        Response response = this.tut.path(path).request().header("uri", uri).
+                put(Entity.text(extractor));
+        assertThat(response.getStatusInfo().getFamily(), is(Response.Status.Family.SUCCESSFUL));
+
+        Response jvmResponse = this.tut.path(path).
+                request().
+                get();
+        assertThat(jvmResponse.getStatusInfo().getFamily(), is(Response.Status.Family.SUCCESSFUL));
+        JsonObject jvmConfiguration = jvmResponse.readEntity(JsonObject.class);
+        assertThat(jvmConfiguration.getString("uri"), is(uri));
+        assertThat(jvmConfiguration.getString("extractor"), is(extractor));
+
+    }
+
 
 }
