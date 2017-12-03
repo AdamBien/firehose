@@ -142,9 +142,11 @@ Base image for firehose and sample apps were taken from [docklands](https://gith
 ## Screencasts
 
 Java EE Monitoring With firehose and prometheus.io:
+
 [![Java EE Monitoring With firehose and prometheus.io](https://i.ytimg.com/vi/_FW5472xTmQ/mqdefault.jpg)](https://www.youtube.com/embed/_FW5472xTmQ?rel=0) 
 
 Monitoring Payara with Firehose, Prometheus and Grafana:
+
 [![Monitoring Payara with Firehose, Prometheus and Grafana](https://i.ytimg.com/vi/Pww-8WxsXJA/mqdefault.jpg)](https://www.youtube.com/embed/Pww-8WxsXJA?rel=0)
 
 
